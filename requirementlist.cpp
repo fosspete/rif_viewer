@@ -58,7 +58,7 @@ void RequirementList::SetReqText(QString reqtext)
 
 void RequirementList::StoreIfComplete()
 {
-    bool debug = true;
+    bool debug = false;
 
     if(current_requirement.name != "" && current_requirement.req_class != "")
     {
