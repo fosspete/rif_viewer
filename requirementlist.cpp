@@ -114,9 +114,9 @@ QString RequirementList::GoToNextReqId(QString search_string)
         while((this->current_index_ < (theList_.count()-1)) && !found)
         {
             this->current_index_++;
-            if(theList_.at(this->current_index_).name.contains(search_string) ||
-               theList_.at(this->current_index_).reqtext.contains(search_string) ||
-               theList_.at(this->current_index_).req_id.contains(search_string))
+            if(theList_.at(this->current_index_).name.contains(search_string, Qt::CaseInsensitive) ||
+               theList_.at(this->current_index_).reqtext.contains(search_string, Qt::CaseInsensitive) ||
+               theList_.at(this->current_index_).req_id.contains(search_string, Qt::CaseInsensitive))
             {
                 found = true;
                 nextid = theList_.at(this->current_index_).req_id;
