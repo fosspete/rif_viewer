@@ -91,24 +91,29 @@ void MainWindow::on_actionExport_CVS_triggered()
 
 void MainWindow::on_reqListWidget_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn)
 {
-    QString reqid = ui->reqListWidget->item(currentRow, 1)->text();
+    qDebug()<< "on_reqListWidget_currentCellChanged, currentRow= "<<currentRow;
 
-    RequirementList *reqList = theParser.getReqList();
-
-    if(reqList->GoToReqWithID(reqid)!="")
+    if(currentRow >=0)
     {
-        // requirment was found
-        ui->reqText->document()->setPlainText(reqList->GetTextOfReq());
+        QString reqid = ui->reqListWidget->item(currentRow, 1)->text();
+
+        RequirementList *reqList = theParser.getReqList();
+
+        if(reqList->GoToReqWithID(reqid)!="")
+        {
+            // requirment was found
+            ui->reqText->document()->setPlainText(reqList->GetTextOfReq());
+        }
+        ui->reqProperties->setRowCount(0);
+
+        ui->reqProperties->insertRow(ui->reqProperties->rowCount());
+        ui->reqProperties->setItem(ui->reqProperties->rowCount()-1, 0,new QTableWidgetItem("Requirement state"));
+        ui->reqProperties->setItem(ui->reqProperties->rowCount()-1, 1, new QTableWidgetItem(reqList->GetStateOfReq()));
+
+        ui->reqProperties->insertRow(ui->reqProperties->rowCount());
+        ui->reqProperties->setItem(ui->reqProperties->rowCount()-1, 0,new QTableWidgetItem("Revision"));
+        ui->reqProperties->setItem(ui->reqProperties->rowCount()-1, 1, new QTableWidgetItem(reqList->GetRevOfReq()));
     }
-    ui->reqProperties->setRowCount(0);
-
-    ui->reqProperties->insertRow(ui->reqProperties->rowCount());
-    ui->reqProperties->setItem(ui->reqProperties->rowCount()-1, 0,new QTableWidgetItem("Requirement state"));
-    ui->reqProperties->setItem(ui->reqProperties->rowCount()-1, 1, new QTableWidgetItem(reqList->GetStateOfReq()));
-
-    ui->reqProperties->insertRow(ui->reqProperties->rowCount());
-    ui->reqProperties->setItem(ui->reqProperties->rowCount()-1, 0,new QTableWidgetItem("Revision"));
-    ui->reqProperties->setItem(ui->reqProperties->rowCount()-1, 1, new QTableWidgetItem(reqList->GetRevOfReq()));
 }
 
 void MainWindow::on_searchButton_clicked()
