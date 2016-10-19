@@ -99,6 +99,7 @@ void RequirementList::GoToStart()
 QString RequirementList::GoToNextReqId(QString search_string)
 {
     QString nextid = "";
+    bool found = false;
 
     if(search_string == "")
     {
@@ -106,6 +107,20 @@ QString RequirementList::GoToNextReqId(QString search_string)
         {
             this->current_index_++;
             nextid = theList_.at(this->current_index_).req_id;
+        }
+    }
+    else
+    {
+        while((this->current_index_ < (theList_.count()-1)) && !found)
+        {
+            this->current_index_++;
+            if(theList_.at(this->current_index_).name.contains(search_string) ||
+               theList_.at(this->current_index_).reqtext.contains(search_string) ||
+               theList_.at(this->current_index_).req_id.contains(search_string))
+            {
+                found = true;
+                nextid = theList_.at(this->current_index_).req_id;
+            }
         }
     }
 

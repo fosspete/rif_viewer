@@ -29,6 +29,12 @@ private slots:
 
     void on_reqListWidget_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn);
 
+    void on_searchButton_clicked();
+
+    void on_searchLineEdit_returnPressed();
+
+    void on_searchLineEdit_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     QString filename;

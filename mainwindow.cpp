@@ -110,3 +110,43 @@ void MainWindow::on_reqListWidget_currentCellChanged(int currentRow, int current
     ui->reqProperties->setItem(ui->reqProperties->rowCount()-1, 0,new QTableWidgetItem("Revision"));
     ui->reqProperties->setItem(ui->reqProperties->rowCount()-1, 1, new QTableWidgetItem(reqList->GetRevOfReq()));
 }
+
+void MainWindow::on_searchButton_clicked()
+{
+    QString searchstring = ui->searchLineEdit->text();
+
+    ui->reqListWidget->setRowCount(0);
+
+    bool finished = false;
+    RequirementList *reqList = theParser.getReqList();
+
+    reqList->GoToStart();
+    if (reqList->GoToNextReqId(searchstring) == "")
+    {
+        finished = true;
+    }
+
+    while (!finished)
+    {
+        QString temp = reqList->GetNameOfReq();
+        this->ui->reqListWidget->insertRow(ui->reqListWidget->rowCount());
+        this->ui->reqListWidget->setItem(ui->reqListWidget->rowCount()-1, 0, new QTableWidgetItem(reqList->GetClassOfReq()));
+        this->ui->reqListWidget->setItem(ui->reqListWidget->rowCount()-1, 1, new QTableWidgetItem(reqList->GetIdOfReq()));
+        this->ui->reqListWidget->setItem(ui->reqListWidget->rowCount()-1, 2, new QTableWidgetItem(temp));
+
+        if (reqList->GoToNextReqId(searchstring) == "")
+        {
+            finished = true;
+        }
+    }
+}
+
+void MainWindow::on_searchLineEdit_returnPressed()
+{
+    this->on_searchButton_clicked();
+}
+
+void MainWindow::on_searchLineEdit_textChanged(const QString &arg1)
+{
+    this->on_searchButton_clicked();
+}
